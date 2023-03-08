@@ -29,7 +29,6 @@ function addCountryDetails(countrylist){
 function inputCity (e){
     const formdata = e.target.value
     outputBlock.innerHTML ='';
-    aboutCountry.innerHTML ='';
     if(!formdata){
         return;
     }
