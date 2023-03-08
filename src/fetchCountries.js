@@ -7,8 +7,6 @@ const FILTER_RESPONSE = new URLSearchParams({
 export function fetchCountries(name){
     return fetch(`${BASE_URL}${name}?${FILTER_RESPONSE}`)
     .then(r=>{
-        console.log('r',r )
-        console.log('json',r.json )
         if (!r.ok){
             Notiflix.Notify.failure("Oops, there is no country with that name")
             return;
