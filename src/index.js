@@ -8,26 +8,27 @@ let listOfCountries = '';
 let aboutCountry = '';
 
 const inputForm = document.querySelector('#search-box');
-const outputBlock = document.querySelector('.country-info');
+const countryBlockList = document.querySelector('.country-list');
+const countryBlock = document.querySelector('.country-info');
 
-function addShortCountryList(countrylist) {
+function addCountryList(countrylist) {
   listOfCountries = countrylist
     .map(
       country =>
         `<li><img src=${country.flags.svg} alt=${country.name.official} width=20 /> <span>${country.name.official}</span></li>`
     )
     .join('');
-  outputBlock.insertAdjacentHTML('afterbegin', listOfCountries);
+  countryBlockList.insertAdjacentHTML('afterbegin', listOfCountries);
 }
 
 function addCountryDetails(countrylist) {
   aboutCountry = countrylist
     .map(
-      country => `<li><img src=${country.flags.svg} alt=${
+      country => `<p><img src=${country.flags.svg} alt=${
         country.name.official
       } width=25 /> <span style="font-size:25px">${
         country.name.official
-      }</span></li>
+      }</span></p>
                                                 <p><b>Capital:</b> ${
                                                   country.capital
                                                 }</p>
@@ -40,13 +41,13 @@ function addCountryDetails(countrylist) {
     `
     )
     .join('');
-  outputBlock.insertAdjacentHTML('afterbegin', aboutCountry);
+  countryBlock.insertAdjacentHTML('afterbegin', aboutCountry);
 }
 
 function inputCity(e) {
-  const formdata = e.target.value;
-  console.log(formdata)
-  outputBlock.innerHTML = '';
+  const formdata = e.target.value.trim();
+  countryBlock.innerHTML = '';
+  countryBlockList.innerHTML = '';
   if (!formdata) {
     return;
   }
@@ -59,7 +60,7 @@ function inputCity(e) {
         return;
       }
       if (countryData.length >= 2 && countryData.length <= 10) {
-        addShortCountryList(countryData);
+        addCountryList(countryData);
         return;
       }
       if (countryData.length < 2) {
@@ -67,9 +68,9 @@ function inputCity(e) {
         return;
       }
     })
-    .catch(err => {
-      console.log(err);
-    });
-}
+    .catch(()=>{
+      Notiflix.Notify.failure('Oops, there is no country with that name');
+    })
+    }
 
 inputForm.addEventListener('input', debounce(inputCity, DEBOUNCE_DELAY));
